@@ -1,10 +1,6 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcryptjs');
 
-// mongoose.connect('mongodb://localhost/Passport');
-
-// var db = mongoose.connection;
-
 //User schema
 var UserShema = mongoose.Schema({
     username: {

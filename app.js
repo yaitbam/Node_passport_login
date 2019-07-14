@@ -12,7 +12,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var mongo = require('mongodb');
 var mongose = require('mongoose');
 
-mongose.connect('mongodb://localhost/Passport', { useNewUrlParser: true });
+mongose.connect('mongodb://localhost/Passport',  { useNewUrlParser: true,useCreateIndex: true, });
 var db = mongose.connection;
 
 var routes = require('./routes/index');
@@ -38,16 +38,18 @@ app.use(cookieParser());
 //set statci folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-//Passport init
-app.use(passport.initialize());
-app.use(passport.session());
-
 //Express session 
 app.use(session({
     secret: 'sectrf$$$@$',
     saveUninitialized: true,
     resave: true
 }));
+
+//Passport init
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 
 //Express validator
 app.use(expressValidator({
@@ -78,15 +80,21 @@ app.use(function(req, res, next)
     res.locals.success_msg = req.flash('success_msg');
     res.locals.error_msg  = req.flash('error_msg');
     res.locals.error = req.flash('error');
-    res.locals.user = req.user || null;
+    res.locals.users = req.user;
+
+    // console.log(res.locals)
+
     next();
+    
 });
+
+
 
 app.use('/', routes);
 app.use('/users', users);
 
 //Set port
-app.set('port', (process.env.PORT || 3000));
+app.set('port', (process.env.PORT || 1337));
 
 app.listen(app.get('port'), function()
 {

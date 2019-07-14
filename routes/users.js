@@ -7,15 +7,27 @@ var User = require('../models/user');
 
 //Get home page
 
-router.get('/registre', function(req, res)
+router.get('/registre', ensureAuthenticated,  function(req, res)
 {
     res.render('registre');
 });
 
-router.get('/login', function(req, res)
+router.get('/login', ensureAuthenticated,  function(req, res)
 {
     res.render('login');
 });
+
+function ensureAuthenticated(req, res, next)
+{
+    if(req.isAuthenticated())
+    {
+        res.redirect('/');
+    }
+    else
+    {
+        return next();
+    }
+}
 
 //Rgistre user
 router.post('/registre', function(req, res)
@@ -96,14 +108,13 @@ passport.serializeUser(function(user, done) {
     });
   });
 
-router.post('/login', passport.authenticate('local', {
-    successRedirect: '/',
-     failureRedirect: '/users/login',
-      failureFlash: true}), function(req, res) {
-    // If this function gets called, authentication was successful.
-    // `req.user` contains the authenticated user.
+
+
+
+router.post('/login', passport.authenticate('local',  { successRedirect: '/', failureRedirect: '/users/login', failureFlash: true }), function(req, res) {
     res.redirect('/');
-  });
+    // console.log("passport user", req.user);
+});
 
 router.get('/logout', function(req, res)
 {
