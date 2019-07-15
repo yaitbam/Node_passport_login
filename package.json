@@ -15,6 +15,7 @@
     "body-parser": "^1.19.0",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.4",
+    "cryptr": "^4.0.2",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "express-ejs-layouts": "^2.5.0",
@@ -25,6 +26,7 @@
     "flash": "^1.1.0",
     "mongodb": "^3.2.7",
     "mongoose": "^5.4.1",
+    "mysql": "^2.17.1",
     "passport": "^0.4.0",
     "passport-http": "^0.3.0",
     "passport-local": "^1.0.0"

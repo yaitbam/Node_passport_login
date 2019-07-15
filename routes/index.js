@@ -5,8 +5,10 @@ var router = express.Router();
 
 router.get('/', ensureAuthenticated,  function(req, res)
 {
-    res.render('index');
+    res.render('index', { username: req.user.username, email:  req.user.email });
+    console.log(req.user.username);
 });
+
 
 function ensureAuthenticated(req, res, next)
 {

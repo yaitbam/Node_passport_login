@@ -2,18 +2,15 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-// var exphbs = require('express-ejs-layouts');
 var exphbs = require('express-handlebars');
 var expressValidator = require('express-validator');
 var flash = require('connect-flash');
 var session = require("express-session");
 var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-var mongo = require('mongodb');
 var mongose = require('mongoose');
 
-mongose.connect('mongodb://localhost/Passport',  { useNewUrlParser: true,useCreateIndex: true, });
-var db = mongose.connection;
+// mongose.connect('mongodb://localhost/Passport',  { useNewUrlParser: true,useCreateIndex: true, });
+// var db = mongose.connection;
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -34,8 +31,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 
-
-//set statci folder
+//set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
 //Express session 
@@ -46,9 +42,12 @@ app.use(session({
 }));
 
 //Passport init
-app.use(passport.initialize());
+app.use(passport.initialize()); //est un middle-ware qui initialise Passport .
+/*
+Les middlewares sont des fonctions qui ont accès à l'objet de requête (req),
+ à l'objet de réponse (res) et à la fonction middleware suivante 
+ dans le cycle de requête-réponse de l'application.*/
 app.use(passport.session());
-
 
 
 //Express validator
@@ -80,9 +79,9 @@ app.use(function(req, res, next)
     res.locals.success_msg = req.flash('success_msg');
     res.locals.error_msg  = req.flash('error_msg');
     res.locals.error = req.flash('error');
-    res.locals.users = req.user;
-
-    // console.log(res.locals)
+    res.locals.users = req.user || null;
+    // res.locals.name = req.user.name;
+    // console.log(req.user);
 
     next();
     
